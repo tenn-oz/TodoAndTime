@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TodoAndTime</title>
+    <title>Todo App</title>
+    <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>TodoAndTime</h1>
+        <h1>Todo App</h1>
         <nav>
             <ul>
                 <li>About</li>
@@ -16,16 +17,11 @@
         </nav>
     </header>
     <main>
-        <div>
-            <form>
-
-            </form>
-        </div>
-        <div>
-            <table>
-
-            </table>
-        </div>
+        <form id="task-form">
+            <input type="text" id="task-input" placeholder="追加するタスク">
+            <input type="submit" id="task-button" value="追加">
+        </form>
+        <ul id="task-list"></ul>
     </main>
 </body>
 </html>
