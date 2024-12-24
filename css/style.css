@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-body {
-    margin: 0px;
-}
-
 header {
     display: flex;
     justify-content: space-between;
@@ -50,4 +46,13 @@ form {
 #task-button:hover {
     background-color: #b3b5b4;
     transition: 0.3s;
+}
+
+#task-list {
+    width: 500px;
+    margin: 50px auto;
+}
+
+#task-list li {
+    font-size: 24px;
 }
