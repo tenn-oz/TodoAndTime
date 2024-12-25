@@ -8,6 +8,15 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
 
     newTask.innerText = taskInput.value;
 
+    const deleteButton = document.createElement("button");
+    deleteButton.setAttribute("type", "button");
+    deleteButton.setAttribute("id", "delete-button");
+    deleteButton.innerText = "削除"
+    deleteButton.addEventListener("click", () => {
+        taskList.removeChild(newTask);
+    })
+
+    newTask.appendChild(deleteButton);
     taskList.appendChild(newTask);
 
     taskInput.value = "";

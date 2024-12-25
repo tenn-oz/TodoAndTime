@@ -55,4 +55,11 @@ form {
 
 #task-list li {
     font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+#delete-button {
+    font-size: 10px;
+    margin-left: 30px;
 }
