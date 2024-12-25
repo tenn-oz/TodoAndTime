@@ -28,9 +28,12 @@ nav ul li:hover {
     transition: 0.3s;
 }
 
-form {
+#task-form {
+    display: flex;
     margin-top: 50px;
+    justify-content: center;
     text-align: center;
+    gap: 20px;
 }
 
 #task-input {
@@ -40,7 +43,8 @@ form {
 
 #task-button {
     font-size: 22px;
-    border-radius: 4px;
+    border-radius: 5px;
+    border: 2px solid;
 }
 
 #task-button:hover {
