@@ -17,7 +17,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     const deleteButton = document.createElement("button");
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("id", "delete-button");
-    deleteButton.innerText = "削除"
+    deleteButton.innerText = "X";
     deleteButton.addEventListener("click", () => {
         taskList.removeChild(newTask);
     })

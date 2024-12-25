@@ -57,11 +57,13 @@ form {
     font-size: 24px;
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 #delete-button {
-    font-size: 10px;
-    margin-left: 30px;
+    font-size: 12px;
+    margin-left: auto;
+    padding: 5px 15px;
 }
 
 #checkbox {
