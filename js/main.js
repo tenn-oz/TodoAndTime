@@ -5,8 +5,14 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     const taskInput = document.getElementById("task-input");
     const taskList = document.getElementById("task-list");
     const newTask = document.createElement("li");
-
-    newTask.innerText = taskInput.value;
+    
+    const checkBox = document.createElement("input");
+    checkBox.setAttribute("type", "checkbox");
+    checkBox.setAttribute("id", "checkbox");
+    newTask.appendChild(checkBox);
+    
+    const textNode = document.createTextNode(taskInput.value);
+    newTask.appendChild(textNode);
 
     const deleteButton = document.createElement("button");
     deleteButton.setAttribute("type", "button");
