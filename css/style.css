@@ -88,6 +88,12 @@ nav ul li:hover {
     font-weight: bold;
 }
 
+#start-button {
+    font-size: 12px;
+    margin-left: 20px;
+    padding: 5px 15px;
+}
+
 #delete-button {
     font-size: 12px;
     margin-left: 20px;

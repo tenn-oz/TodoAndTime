@@ -21,6 +21,12 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     setTime.innerText = setHour.value + " : " + minuteFormatted;
     newTask.appendChild(setTime);
 
+    const startButton = document.createElement("button");
+    startButton.setAttribute("type", "button");
+    startButton.setAttribute("id", "start-button");
+    startButton.innerText = "開始";
+    newTask.appendChild(startButton);
+    
     const deleteButton = document.createElement("button");
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("id", "delete-button");
@@ -28,8 +34,8 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     deleteButton.addEventListener("click", () => {
         taskList.removeChild(newTask);
     })
-
     newTask.appendChild(deleteButton);
+
     taskList.appendChild(newTask);
 
     taskInput.value = "";
