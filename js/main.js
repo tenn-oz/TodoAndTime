@@ -14,6 +14,13 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     const textNode = document.createTextNode(taskInput.value);
     newTask.appendChild(textNode);
 
+    const setTime = document.createElement("span")
+    const setHour = document.getElementById("hour-range");
+    const setMinute = document.getElementById("minute-range");
+    const minuteFormatted = setMinute.value.padStart(2, "0");
+    setTime.innerText = setHour.value + " : " + minuteFormatted;
+    newTask.appendChild(setTime);
+
     const deleteButton = document.createElement("button");
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("id", "delete-button");

@@ -65,7 +65,7 @@ nav ul li:hover {
 }
 
 #task-list {
-    width: 500px;
+    width: 700px;
     margin: 50px auto;
 }
 
@@ -76,9 +76,21 @@ nav ul li:hover {
     margin-bottom: 10px;
 }
 
+#task-list span {
+    display: inline-block;
+    font-size: 14px;
+    margin-left: auto;
+    color: #fff;
+    padding: 2px 5px;
+    background-color: rgb(2, 193, 85);
+    border-radius: 3px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
 #delete-button {
     font-size: 12px;
-    margin-left: auto;
+    margin-left: 20px;
     padding: 5px 15px;
 }
 
