@@ -27,3 +27,15 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
 
     taskInput.value = "";
 })
+
+//スライダーによる表示時間更新
+const hourSlider = document.getElementById("hour-range")
+hourSlider.addEventListener("change", () => {
+    const setHour = document.getElementById("hour-value")
+    setHour.innerText = hourSlider.value;
+})
+const minuteSlider = document.getElementById("minute-range")
+minuteSlider.addEventListener("change", () => {
+    const setMinute = document.getElementById("minute-value")
+    setMinute.innerText = minuteSlider.value;
+})

@@ -30,10 +30,22 @@ nav ul li:hover {
 
 #task-form {
     display: flex;
-    margin-top: 50px;
+    margin: 50px auto;
     justify-content: center;
     text-align: center;
     gap: 20px;
+    flex-wrap: wrap;
+    width: 500px;
+}
+
+#set-time {
+    width: 400px;
+    margin: auto;
+    font-size: 18px;
+}
+
+#set-time span {
+    font-size: 24px;
 }
 
 #task-input {
