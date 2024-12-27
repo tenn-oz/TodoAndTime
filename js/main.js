@@ -20,8 +20,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     const setTime = document.createElement("span")
     const setHour = document.getElementById("hour-range");
     const setMinute = document.getElementById("minute-range");
-    const minuteFormatted = setMinute.value.padStart(2, "0");
-    setTime.innerText = setHour.value + " : " + minuteFormatted;
+    setTime.innerText = setHour.value + " : " + setMinute.value.padStart(2, "0");
     newTask.appendChild(setTime);
 
     //　開始ボタン
@@ -33,9 +32,27 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         const mainSection = document.getElementById("main-section");
         const timeDisplay = document.createElement("div");
         timeDisplay.setAttribute("id", "time-display");
-        timeDisplay.innerHTML = `<span id="display-hour">${setHour.value}</span> : <span id="display-minute">${minuteFormatted}</span>`;
         mainSection.prepend(timeDisplay);
-    })
+
+        let remainingTime = parseInt(setHour.value) * 3600 + parseInt(setMinute.value) * 60;
+        
+        const updateDisplay = (time) => {
+            const timeDisplay = document.getElementById("time-display");
+            const hours = Math.floor(time / 3600);
+            const minutes = Math.floor((time % 3600) / 60)
+            const seconds = time % 60;
+            timeDisplay.innerHTML = `<span id="display-hour">${hours}</span>:<span id="display-minute">${String(minutes).padStart(2, "0")}</span>:<span id="display-second">${String(seconds).padStart(2, "0")}</span>`;
+        }
+
+        updateDisplay(remainingTime);
+        const intervalID = setInterval(() => {
+            remainingTime--;
+            updateDisplay(remainingTime);
+            if (remainingTime <= 0) {
+                clearInterval(intervalID);
+            }
+        }, 1000);
+    });
     newTask.appendChild(startButton);
     
     //　削除ボタン
@@ -45,7 +62,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     deleteButton.innerText = "X";
     deleteButton.addEventListener("click", () => {
         taskList.removeChild(newTask);
-    })
+    });
     newTask.appendChild(deleteButton);
 
     taskList.appendChild(newTask);
@@ -65,4 +82,3 @@ minuteSlider.addEventListener("change", () => {
     setMinute.innerText = minuteSlider.value;
 })
 
-//　開始ボタンを押す押下→指定していた時間分のタイマーを開始・表示
