@@ -34,6 +34,11 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         timeDisplay.setAttribute("id", "time-display");
         mainSection.prepend(timeDisplay);
 
+        // 全タスクの開始ボタン削除
+        const taskList = document.getElementById("task-list");
+        taskList.querySelectorAll(".start-button").forEach((button) => {
+            button.remove();
+        });
 
         let remainingTime = parseInt(setHour.value) * 3600 + parseInt(setMinute.value) * 60;
         
