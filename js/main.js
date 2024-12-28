@@ -66,9 +66,9 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
             if (remainingTime <= 0) {
                 clearInterval(intervalID);
                 timeDisplay.remove();
+                taskForm.innerHTML = originalForm;
                 taskForm.querySelector("#hour-value").innerText = "0";
                 taskForm.querySelector("#minute-value").innerText = "0";
-                taskForm.innerHTML = originalForm;
                 newTask.querySelector(".checkbox").checked = true;
                 for (let i = 0; i < taskList.children.length; ++i) {
                     let taskli = taskList.children[i];
