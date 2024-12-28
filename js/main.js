@@ -20,7 +20,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     const setTime = document.createElement("span")
     const setHour = document.getElementById("hour-range");
     const setMinute = document.getElementById("minute-range");
-    setTime.innerText = setHour.value + " : " + setMinute.value.padStart(2, "0");
+    setTime.innerHTML = `<span class="set-hour">${setHour.value}</span>:<span class="set-minute">${setMinute.value.padStart(2, "0")}</span>`;
     newTask.appendChild(setTime);
 
     //　開始ボタン
@@ -34,13 +34,22 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         timeDisplay.setAttribute("id", "time-display");
         mainSection.prepend(timeDisplay);
 
-        // 全タスクの開始ボタン削除
+        // 全タスクの開始ボタンを一時削除
         const taskList = document.getElementById("task-list");
+        const originalStartButtons = [];
         taskList.querySelectorAll(".start-button").forEach((button) => {
+            originalStartButtons.push(button);
             button.remove();
         });
 
-        let remainingTime = parseInt(setHour.value) * 3600 + parseInt(setMinute.value) * 60;
+        // フォームを一時削除
+        const taskForm = document.getElementById("task-form");
+        const originalForm = taskForm.innerHTML;
+        taskForm.innerHTML = "";
+
+        const setHour = newTask.querySelector(".set-hour").innerText;
+        const setMinute = newTask.querySelector(".set-minute").innerText;
+        let remainingTime = parseInt(setHour) * 3600 + parseInt(setMinute) * 60;
         
         const updateDisplay = (time) => {
             const timeDisplay = document.getElementById("time-display");
@@ -56,6 +65,15 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
             updateDisplay(remainingTime);
             if (remainingTime <= 0) {
                 clearInterval(intervalID);
+                timeDisplay.remove();
+                taskForm.querySelector("#hour-value").innerText = "0";
+                taskForm.querySelector("#minute-value").innerText = "0";
+                taskForm.innerHTML = originalForm;
+                newTask.querySelector(".checkbox").checked = true;
+                for (let i = 0; i < taskList.children.length; ++i) {
+                    let taskli = taskList.children[i];
+                    taskli.insertBefore(originalStartButtons[i], taskli.children[taskli.children.length - 1]);
+                }
             }
         }, 1000);
     });
