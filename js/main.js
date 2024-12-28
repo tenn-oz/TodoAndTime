@@ -9,7 +9,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     //　チェックボックス
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
-    checkBox.setAttribute("id", "checkbox");
+    checkBox.setAttribute("class", "checkbox");
     newTask.appendChild(checkBox);
     
     // タスク
@@ -26,13 +26,14 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     //　開始ボタン
     const startButton = document.createElement("button");
     startButton.setAttribute("type", "button");
-    startButton.setAttribute("id", "start-button");
+    startButton.setAttribute("class", "start-button");
     startButton.innerText = "開始";
     startButton.addEventListener("click", () => {
         const mainSection = document.getElementById("main-section");
         const timeDisplay = document.createElement("div");
         timeDisplay.setAttribute("id", "time-display");
         mainSection.prepend(timeDisplay);
+
 
         let remainingTime = parseInt(setHour.value) * 3600 + parseInt(setMinute.value) * 60;
         
@@ -58,7 +59,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     //　削除ボタン
     const deleteButton = document.createElement("button");
     deleteButton.setAttribute("type", "button");
-    deleteButton.setAttribute("id", "delete-button");
+    deleteButton.setAttribute("class", "delete-button");
     deleteButton.innerText = "X";
     deleteButton.addEventListener("click", () => {
         taskList.removeChild(newTask);
