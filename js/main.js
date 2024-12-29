@@ -29,11 +29,14 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     newTask.appendChild(checkBox);
     
     // タスク
-    const textNode = document.createTextNode(taskInput.value);
-    newTask.appendChild(textNode);
+    const taskName = document.createElement("span");
+    taskName.setAttribute("id", "task-name");
+    taskName.innerText = taskInput.value;
+    newTask.appendChild(taskName);
 
     // 設定時間
     const setTime = document.createElement("span")
+    setTime.setAttribute("id", "task-time");
     const setHour = document.getElementById("hour-range");
     const setMinute = document.getElementById("minute-range");
     setTime.innerHTML = `<span class="set-hour">${setHour.value}</span>:<span class="set-minute">${setMinute.value.padStart(2, "0")}</span>`;
@@ -49,6 +52,15 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         const timeDisplay = document.createElement("div");
         timeDisplay.setAttribute("id", "time-display");
         mainSection.prepend(timeDisplay);
+
+        const displayButtons = document.createElement("div");
+        displayButtons.setAttribute("id", "display-buttons");
+        mainSection.insertBefore(displayButtons, timeDisplay.nextSibling);
+
+        const currentTask = document.createElement("div");
+        currentTask.setAttribute("id", "current-task");
+        currentTask.innerText = newTask.querySelector("#task-name").innerText;
+        mainSection.insertBefore(currentTask, displayButtons.nextSibling);
 
         // 全タスクの開始ボタンを一時削除
         const taskList = document.getElementById("task-list");
@@ -75,25 +87,63 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
             timeDisplay.innerHTML = `<span id="display-hour">${hours}</span>:<span id="display-minute">${String(minutes).padStart(2, "0")}</span>:<span id="display-second">${String(seconds).padStart(2, "0")}</span>`;
         }
 
-        updateDisplay(remainingTime);
-        const intervalID = setInterval(() => {
+        const deleteDisplay = () => {
+            timeDisplay.remove();
+            displayButtons.remove();
+            currentTask.remove();
+        }
+
+        const reappearFormAndTaskList = () => {
+            taskForm.innerHTML = originalForm;
+            taskForm.querySelector("#hour-value").innerText = "0";
+            taskForm.querySelector("#minute-value").innerText = "0";
+            addEventToSlider();
+            for (let i = 0; i < taskList.children.length; ++i) {
+                let taskli = taskList.children[i];
+                taskli.insertBefore(originalStartButtons[i], taskli.children[taskli.children.length - 1]);
+            }
+        }
+
+        const timerHandler = () => {
             remainingTime--;
             updateDisplay(remainingTime);
             if (remainingTime <= 0) {
                 clearInterval(intervalID);
-                timeDisplay.remove();
-                taskForm.innerHTML = originalForm;
-                taskForm.querySelector("#hour-value").innerText = "0";
-                taskForm.querySelector("#minute-value").innerText = "0";
-                addEventToSlider();
-                
+                deleteDisplay();
+                reappearFormAndTaskList();
                 newTask.querySelector(".checkbox").checked = true;
-                for (let i = 0; i < taskList.children.length; ++i) {
-                    let taskli = taskList.children[i];
-                    taskli.insertBefore(originalStartButtons[i], taskli.children[taskli.children.length - 1]);
-                }
             }
-        }, 1000);
+        }
+
+        updateDisplay(remainingTime);
+        let intervalID = setInterval(timerHandler, 1000);
+
+        const pauseButton = document.createElement("button");
+        pauseButton.setAttribute("id", "pause-button");
+        pauseButton.innerText = "一時停止";
+        let nowPause = false;
+        pauseButton.addEventListener("click", () => {
+            nowPause = !nowPause;
+            if (nowPause) {
+                pauseButton.innerText = "再開";
+                clearInterval(intervalID);
+            } else {
+                pauseButton.innerText = "一時停止";
+                intervalID = setInterval(timerHandler, 1000);
+            }
+        })
+        displayButtons.appendChild(pauseButton);
+
+
+        const cancelButton = document.createElement("button");
+        cancelButton.setAttribute("id", "cancel-button");
+        cancelButton.innerText = "キャンセル";
+        cancelButton.addEventListener("click", () => {
+            clearInterval(intervalID);
+            deleteDisplay();
+            reappearFormAndTaskList();
+        })
+        displayButtons.appendChild(cancelButton);
     });
     newTask.appendChild(startButton);
     
