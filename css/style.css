@@ -124,8 +124,21 @@ nav ul li:hover {
 }
 
 .checkbox {
-    transform: scale(1.5);
+    /* transform: scale(2.0); */
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    appearance: none;
     margin-right: 20px;
+    border: 2px solid #d4d4d4;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.checkbox:checked {
+    background-image: url("../images/check_mark-2.svg");
+    background-size: cover;
+    border: none;
 }
 
 #time-display {
