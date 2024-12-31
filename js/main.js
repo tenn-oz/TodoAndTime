@@ -77,7 +77,8 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
 
         const setHour = newTask.querySelector(".set-hour").innerText;
         const setMinute = newTask.querySelector(".set-minute").innerText;
-        let remainingTime = parseInt(setHour) * 3600 + parseInt(setMinute) * 60;
+        let durationTime = parseInt(setHour) * 3600 + parseInt(setMinute) * 60;
+        let startTime = Date.now();
         
         const updateDisplay = (time) => {
             const timeDisplay = document.getElementById("time-display");
@@ -105,7 +106,8 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         }
 
         const timerHandler = () => {
-            remainingTime--;
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            remainingTime = durationTime - elapsedTime;
             updateDisplay(remainingTime);
             if (remainingTime <= 0) {
                 clearInterval(intervalID);
@@ -115,7 +117,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
             }
         }
 
-        updateDisplay(remainingTime);
+        updateDisplay(durationTime);
         let intervalID = setInterval(timerHandler, 1000);
 
         const pauseButton = document.createElement("button");
@@ -126,13 +128,22 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
             nowPause = !nowPause;
             if (nowPause) {
                 pauseButton.innerText = "再開";
+                durationTime -= Math.floor((Date.now() - startTime) / 1000);
                 clearInterval(intervalID);
             } else {
                 pauseButton.innerText = "一時停止";
+                startTime = Date.now();
                 intervalID = setInterval(timerHandler, 1000);
             }
         })
         displayButtons.appendChild(pauseButton);
+
+        //別タブから復帰した際に必ず更新
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden && !nowPause) {
+                timerHandler();
+            }
+        })
 
 
         const cancelButton = document.createElement("button");
