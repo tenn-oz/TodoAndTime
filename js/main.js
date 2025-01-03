@@ -30,13 +30,13 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     
     // タスク
     const taskName = document.createElement("span");
-    taskName.setAttribute("id", "task-name");
+    taskName.setAttribute("class", "task-name");
     taskName.innerText = taskInput.value;
     newTask.appendChild(taskName);
 
     // 設定時間
     const setTime = document.createElement("span")
-    setTime.setAttribute("id", "task-time");
+    setTime.setAttribute("class", "task-time");
     const setHour = document.getElementById("hour-range");
     const setMinute = document.getElementById("minute-range");
     setTime.innerHTML = `<span class="set-hour">${setHour.value}</span>:<span class="set-minute">${setMinute.value.padStart(2, "0")}</span>`;
@@ -141,6 +141,8 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         //別タブから復帰した際に必ず更新
         document.addEventListener("visibilitychange", () => {
             if (!document.hidden && !nowPause) {
+                console.log("check");
+                console.log(nowPause);
                 timerHandler();
             }
         })

@@ -90,11 +90,11 @@ nav ul li:hover {
     margin-bottom: 10px;
 }
 
-#task-name {
+.task-name {
     font-size: 24px;
 }
 
-#task-time {
+.task-time {
     display: inline-block;
     font-size: 14px;
     margin-left: auto;
