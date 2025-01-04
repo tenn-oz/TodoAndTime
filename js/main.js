@@ -59,7 +59,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
 
         const currentTask = document.createElement("div");
         currentTask.setAttribute("id", "current-task");
-        currentTask.innerText = newTask.querySelector("#task-name").innerText;
+        currentTask.innerText = newTask.querySelector(".task-name").innerText;
         mainSection.insertBefore(currentTask, displayButtons.nextSibling);
 
         // 全タスクの開始ボタンを一時削除
@@ -141,8 +141,6 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         //別タブから復帰した際に必ず更新
         document.addEventListener("visibilitychange", () => {
             if (!document.hidden && !nowPause) {
-                console.log("check");
-                console.log(nowPause);
                 timerHandler();
             }
         })
