@@ -14,6 +14,9 @@ const addEventToSlider = () => {
 
 addEventToSlider();
 
+let durationTime;
+let nowPause = false;
+
 //　追加ボタンを押下→新しいタスクを追加し表示を更新
 document.getElementById("task-form").addEventListener("submit", (event) => {
     event.preventDefault();
@@ -77,7 +80,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
 
         const setHour = newTask.querySelector(".set-hour").innerText;
         const setMinute = newTask.querySelector(".set-minute").innerText;
-        let durationTime = parseInt(setHour) * 3600 + parseInt(setMinute) * 60;
+        durationTime = parseInt(setHour) * 3600 + parseInt(setMinute) * 60;
         let startTime = Date.now();
         
         const updateDisplay = (time) => {
@@ -110,22 +113,37 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
             remainingTime = durationTime - elapsedTime;
             updateDisplay(remainingTime);
             if (remainingTime <= 0) {
-                clearInterval(intervalID);
-                deleteDisplay();
-                reappearFormAndTaskList();
+                endTimer();
                 newTask.querySelector(".checkbox").checked = true;
             }
         }
 
+        const visibilitychangeHandler = () => {
+            if (!document.hidden && !nowPause) {
+                timerHandler();
+            }
+        };
+
+        const endTimer = () => {
+            clearInterval(intervalID);
+            deleteDisplay();
+            document.removeEventListener("visibilitychange", visibilitychangeHandler);
+            reappearFormAndTaskList();
+        }
+
         updateDisplay(durationTime);
         let intervalID = setInterval(timerHandler, 1000);
+        
+        //別タブから復帰した際に必ず更新
+        document.addEventListener("visibilitychange", visibilitychangeHandler);
 
         const pauseButton = document.createElement("button");
         pauseButton.setAttribute("id", "pause-button");
         pauseButton.innerText = "一時停止";
-        let nowPause = false;
         pauseButton.addEventListener("click", () => {
             nowPause = !nowPause;
+            console.log(nowPause);
+            console.log(durationTime);
             if (nowPause) {
                 pauseButton.innerText = "再開";
                 durationTime -= Math.floor((Date.now() - startTime) / 1000);
@@ -138,21 +156,11 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         })
         displayButtons.appendChild(pauseButton);
 
-        //別タブから復帰した際に必ず更新
-        document.addEventListener("visibilitychange", () => {
-            if (!document.hidden && !nowPause) {
-                timerHandler();
-            }
-        })
-
-
         const cancelButton = document.createElement("button");
         cancelButton.setAttribute("id", "cancel-button");
         cancelButton.innerText = "キャンセル";
         cancelButton.addEventListener("click", () => {
-            clearInterval(intervalID);
-            deleteDisplay();
-            reappearFormAndTaskList();
+            endTimer();
         })
         displayButtons.appendChild(cancelButton);
     });
