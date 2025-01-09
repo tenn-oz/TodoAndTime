@@ -133,7 +133,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
 
         updateDisplay(durationTime);
         let intervalID = setInterval(timerHandler, 1000);
-        
+
         //別タブから復帰した際に必ず更新
         document.addEventListener("visibilitychange", visibilitychangeHandler);
 
@@ -142,8 +142,6 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         pauseButton.innerText = "一時停止";
         pauseButton.addEventListener("click", () => {
             nowPause = !nowPause;
-            console.log(nowPause);
-            console.log(durationTime);
             if (nowPause) {
                 pauseButton.innerText = "再開";
                 durationTime -= Math.floor((Date.now() - startTime) / 1000);
