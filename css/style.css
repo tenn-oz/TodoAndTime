@@ -200,3 +200,9 @@ nav ul li:hover {
     font-size: 24px;
     margin-top: 20px;
 }
+
+#message {
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+}

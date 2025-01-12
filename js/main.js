@@ -26,6 +26,22 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
     checkBox.setAttribute("class", "checkbox");
+    checkBox.addEventListener("change", () => {
+        const allCheckBox = document.getElementsByClassName("checkbox");
+        const allChecked = Array.from(allCheckBox).every((checkbox) => checkbox.checked);
+        if (allChecked) {
+            const message = document.createElement("p")
+            message.setAttribute("id", "message");
+            message.innerText = "All done!";
+            const mainSection = document.getElementById("main-section");
+            mainSection.append(message);
+        } else {
+            const message = document.getElementById("message");
+            if (message) {
+                message.remove();
+            }
+        }
+    })
     newTask.appendChild(checkBox);
     
     // タスク
