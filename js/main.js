@@ -133,6 +133,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
 
         const visibilitychangeHandler = () => {
             if (!document.hidden && !nowPause) {
+                allDoneHandler();
                 timerHandler();
             }
         };
