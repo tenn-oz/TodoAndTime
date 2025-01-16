@@ -12,7 +12,22 @@ const addEventToSlider = () => {
     });
 }
 
-addEventToSlider();
+const allDoneHandler = () => {
+    const allCheckBox = document.getElementsByClassName("checkbox");
+    const allChecked = Array.from(allCheckBox).every((checkbox) => checkbox.checked);
+    if (allChecked) {
+        const message = document.createElement("p")
+        message.setAttribute("id", "message");
+        message.innerText = "All done!";
+        const mainSection = document.getElementById("main-section");
+        mainSection.append(message);
+    } else {
+        const message = document.getElementById("message");
+        if (message) {
+            message.remove();
+        }
+    }
+}
 
 //　追加ボタンを押下→新しいタスクを追加し表示を更新
 document.getElementById("task-form").addEventListener("submit", (event) => {
@@ -26,22 +41,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
     checkBox.setAttribute("class", "checkbox");
-    checkBox.addEventListener("change", () => {
-        const allCheckBox = document.getElementsByClassName("checkbox");
-        const allChecked = Array.from(allCheckBox).every((checkbox) => checkbox.checked);
-        if (allChecked) {
-            const message = document.createElement("p")
-            message.setAttribute("id", "message");
-            message.innerText = "All done!";
-            const mainSection = document.getElementById("main-section");
-            mainSection.append(message);
-        } else {
-            const message = document.getElementById("message");
-            if (message) {
-                message.remove();
-            }
-        }
-    })
+    checkBox.addEventListener("change", allDoneHandler);
     newTask.appendChild(checkBox);
     
     // タスク
@@ -190,8 +190,9 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
 
     taskList.appendChild(newTask);
 
+    allDoneHandler();
     taskInput.value = "";
 })
 
-
+addEventToSlider();
 
