@@ -12,13 +12,14 @@ const addEventToSlider = () => {
     });
 }
 
+//　全タスクが完了しているかを確認し, その場合メッセージを表示
 const allDoneHandler = () => {
     const allCheckBox = document.getElementsByClassName("checkbox");
     const allChecked = Array.from(allCheckBox).every((checkbox) => checkbox.checked);
     if (allChecked) {
         const message = document.createElement("p")
         message.setAttribute("id", "message");
-        message.innerText = "All done!";
+        message.innerText = "All done.";
         const mainSection = document.getElementById("main-section");
         mainSection.append(message);
     } else {
@@ -29,7 +30,7 @@ const allDoneHandler = () => {
     }
 }
 
-//　追加ボタンを押下→新しいタスクを追加し表示を更新
+//　新しいタスクを追加し表示を更新
 document.getElementById("task-form").addEventListener("submit", (event) => {
     event.preventDefault();
 
