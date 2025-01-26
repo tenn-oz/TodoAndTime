@@ -1,3 +1,5 @@
+import { TodoItem } from "./TodoItem.js"
+
 //　スライダーによる表示時間更新
 const addEventToSlider = () => {
     const hourSlider = document.getElementById("hour-range");
@@ -42,6 +44,12 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
     checkBox.setAttribute("class", "checkbox");
+    checkBox.addEventListener("click", (event) => {
+        const task = event.target.parentNode;
+        const todoItem = JSON.parse(localStorage.getItem(task.id));
+        todoItem.completed = event.target.checked;
+        localStorage.setItem(`todo-${todoItem.id}`, JSON.stringify(todoItem));
+    })
     checkBox.addEventListener("change", allDoneHandler);
     newTask.appendChild(checkBox);
     
@@ -58,6 +66,11 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     const setMinute = document.getElementById("minute-range");
     setTime.innerHTML = `<span class="set-hour">${setHour.value}</span>:<span class="set-minute">${setMinute.value.padStart(2, "0")}</span>`;
     newTask.appendChild(setTime);
+
+    //Todoインスタンスの作成とストレージへの保存
+    const newTodoItem = new TodoItem({name: taskInput.value, hour: setHour.value, minute: setMinute.value, completed: false});
+    localStorage.setItem(`todo-${newTodoItem.id}`, JSON.stringify(newTodoItem));
+    newTask.setAttribute("id", `todo-${newTodoItem.id}`)
 
     //　開始ボタン
     const startButton = document.createElement("button");
@@ -185,8 +198,11 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("class", "delete-button");
     deleteButton.innerText = "X";
-    deleteButton.addEventListener("click", () => {
-        taskList.removeChild(newTask);
+    deleteButton.addEventListener("click", (event) => {
+        const task = event.target.parentNode;
+        taskList.removeChild(task);
+        //ストレージから削除
+        localStorage.removeItem(`${task.id}`);
     });
     newTask.appendChild(deleteButton);
 
