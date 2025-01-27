@@ -42,7 +42,7 @@ nav button:hover {
     transition: 0.3s;
 }
 
-#task-form {
+#todo-form {
     display: flex;
     margin: 50px auto;
     justify-content: center;
@@ -52,7 +52,7 @@ nav button:hover {
     width: 500px;
 }
 
-#task-form:empty {
+#todo-form:empty {
     margin: 0px auto;
 }
 
@@ -66,7 +66,7 @@ nav button:hover {
     font-size: 24px;
 }
 
-#task-input {
+#todo-input {
     width: 400px;
     height: 50px;
     font-size: 24px;
@@ -76,7 +76,7 @@ nav button:hover {
     text-indent: 16px;
 }
 
-#task-button {
+#todo-button {
     font-size: 18px;
     width: 70px;
     height: 50px;
@@ -86,28 +86,28 @@ nav button:hover {
     transition: transform 0.2s, background-color 0.2s;
 }
 
-#task-button:hover {
+#todo-button:hover {
     background-color: #d4d4d4;
     transform: translate(2px, 2px);
 }
 
-#task-list {
+#todo-list {
     width: 700px;
     margin: 50px auto;
 }
 
-#task-list li {
+#todo-list li {
     font-size: 24px;
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.task-name {
+.todo-name {
     font-size: 24px;
 }
 
-.task-time {
+.todo-time {
     display: inline-block;
     font-size: 14px;
     margin-left: auto;
@@ -208,7 +208,7 @@ nav button:hover {
     background-color: #d4d4d4;
 }
 
-#current-task {
+#current-todo {
     display: flex;
     justify-content: center;
     font-size: 24px;

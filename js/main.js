@@ -36,7 +36,7 @@ const renderTodo = (todo) => {
     const todoMinute = todo.minute;
     const todoCompleted = todo.completed;
 
-    const todoListElem = document.getElementById("task-list");
+    const todoListElem = document.getElementById("todo-list");
     const todoElem = document.createElement("li");
     todoElem.setAttribute("id", `todo-${todo.id}`);
 
@@ -46,8 +46,8 @@ const renderTodo = (todo) => {
     checkBox.setAttribute("class", "checkbox button");
     checkBox.checked = todoCompleted;
     checkBox.addEventListener("click", (event) => {
-        const task = event.target.parentNode;
-        const todoItem = JSON.parse(localStorage.getItem(task.id));
+        const todo = event.target.parentNode;
+        const todoItem = JSON.parse(localStorage.getItem(todo.id));
         todoItem.completed = event.target.checked;
         localStorage.setItem(`todo-${todoItem.id}`, JSON.stringify(todoItem));
     })
@@ -56,13 +56,13 @@ const renderTodo = (todo) => {
 
     // タスク
     const todoNameElem = document.createElement("span");
-    todoNameElem.setAttribute("class", "task-name");
+    todoNameElem.setAttribute("class", "todo-name");
     todoNameElem.innerText = todoName;
     todoElem.appendChild(todoNameElem);
 
     // 設定時間
     const todoTimeElem = document.createElement("span")
-    todoTimeElem.setAttribute("class", "task-time");
+    todoTimeElem.setAttribute("class", "todo-time");
     todoTimeElem.innerHTML = `<span class="set-hour">${todoHour}</span>:<span class="set-minute">${String(todoMinute).padStart(2, "0")}</span>`;
     todoElem.appendChild(todoTimeElem);
 
@@ -82,8 +82,8 @@ const renderTodo = (todo) => {
         mainSection.insertBefore(displayButtons, timeDisplay.nextSibling);
 
         const currentTodoElem = document.createElement("div");
-        currentTodoElem.setAttribute("id", "current-task");
-        currentTodoElem.innerText = todoElem.querySelector(".task-name").innerText;
+        currentTodoElem.setAttribute("id", "current-todo");
+        currentTodoElem.innerText = todoElem.querySelector(".todo-name").innerText;
         mainSection.insertBefore(currentTodoElem, displayButtons.nextSibling);
 
         // 全タスクの開始ボタンを一時削除
@@ -101,7 +101,7 @@ const renderTodo = (todo) => {
         });
 
         // フォームを一時削除
-        const todoFormElem = document.getElementById("task-form");
+        const todoFormElem = document.getElementById("todo-form");
         const originalForm = todoFormElem.innerHTML;
         todoFormElem.innerHTML = "";
 
@@ -231,10 +231,10 @@ const init = () => {
     allDoneHandler();
 
     //　新しいタスクを追加し表示を更新
-    document.getElementById("task-form").addEventListener("submit", (event) => {
+    document.getElementById("todo-form").addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const todoName = document.getElementById("task-input").value;
+        const todoName = document.getElementById("todo-input").value;
         const todoHour = document.getElementById("hour-range").value;
         const todoMinute = document.getElementById("minute-range").value;
 
@@ -246,7 +246,7 @@ const init = () => {
 
         allDoneHandler();
         
-        document.getElementById("task-input").value = "";
+        document.getElementById("todo-input").value = "";
     });
 
     document.getElementById("about-btn").addEventListener("click", (event) => {

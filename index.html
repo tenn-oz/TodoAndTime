@@ -22,16 +22,16 @@
         </nav>
     </header>
     <main id="main-section">
-        <form method="post" id="task-form">
-            <input type="text" id="task-input" name="task" placeholder="追加するタスク" maxlength="16" required>
-            <input type="submit" class="button" id="task-button" value="追加">
+        <form method="post" id="todo-form">
+            <input type="text" id="todo-input" placeholder="追加するタスク" maxlength="16" required>
+            <input type="submit" class="button" id="todo-button" value="追加">
             <div id="set-time">
                 <span id="hour-value">0</span> h <span id="minute-value">0</span> m
             </div>
-            <input type="range" class="range" id="hour-range" name="hour" min="0" max="5" value="0">
-            <input type="range" class="range" id="minute-range" name="minute" min="0" max="50" step="10" value="0">
+            <input type="range" class="range" id="hour-range" min="0" max="5" value="0">
+            <input type="range" class="range" id="minute-range" min="0" max="50" step="10" value="0">
         </form>
-        <ul id="task-list"></ul>
+        <ul id="todo-list"></ul>
 
         <div class="modal-container" id="about-modal">
             <div class="modal-content">
