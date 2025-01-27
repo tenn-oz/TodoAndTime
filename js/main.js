@@ -93,6 +93,13 @@ const renderTodo = (todo) => {
             button.remove();
         });
 
+        //　全タスクの削除ボタンを一時削除
+        const originalDeleteButtons = [];
+        todoListElem.querySelectorAll(".delete-button").forEach((button) => {
+            originalDeleteButtons.push(button);
+            button.remove();
+        });
+
         // フォームを一時削除
         const todoFormElem = document.getElementById("task-form");
         const originalForm = todoFormElem.innerHTML;
@@ -123,7 +130,8 @@ const renderTodo = (todo) => {
             addEventToSlider();
             for (let i = 0; i < todoListElem.children.length; ++i) {
                 let todoli = todoListElem.children[i];
-                todoli.insertBefore(originalStartButtons[i], todoli.children[todoli.children.length - 1]);
+                todoli.appendChild(originalStartButtons[i]);
+                todoli.appendChild(originalDeleteButtons[i]);
             }
         }
 
