@@ -274,8 +274,10 @@ const init = () => {
     });
 
     Array.from(document.getElementsByClassName("modal-container")).forEach(container => {
-        container.addEventListener("click", () => {
-            container.style.display = "none";
+        container.addEventListener("click", (event) => {
+            if (event.target == container) {
+                container.style.display = "none";
+            }
         });
     });
 }

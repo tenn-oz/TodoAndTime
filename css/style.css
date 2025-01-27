@@ -224,7 +224,7 @@ nav button:hover {
 .modal-container {
     display: none; 
     position: fixed;
-    z-index: 999; 
+    z-index: 998; 
     left: 0;
     top: 0;
     width: 100%;
