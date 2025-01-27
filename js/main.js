@@ -43,7 +43,7 @@ const renderTodo = (todo) => {
     //チェックボックス
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
-    checkBox.setAttribute("class", "checkbox");
+    checkBox.setAttribute("class", "checkbox button");
     checkBox.checked = todoCompleted;
     checkBox.addEventListener("click", (event) => {
         const task = event.target.parentNode;
@@ -69,7 +69,7 @@ const renderTodo = (todo) => {
     //　開始ボタン
     const startButton = document.createElement("button");
     startButton.setAttribute("type", "button");
-    startButton.setAttribute("class", "start-button");
+    startButton.setAttribute("class", "button start-button");
     startButton.innerText = "開始";
     startButton.addEventListener("click", () => {
         const mainSection = document.getElementById("main-section");
@@ -170,6 +170,7 @@ const renderTodo = (todo) => {
         document.addEventListener("visibilitychange", visibilitychangeHandler);
 
         const pauseButton = document.createElement("button");
+        pauseButton.setAttribute("class", "button");
         pauseButton.setAttribute("id", "pause-button");
         pauseButton.innerText = "一時停止";
         let nowPause = false;
@@ -188,6 +189,7 @@ const renderTodo = (todo) => {
         displayButtons.appendChild(pauseButton);
 
         const cancelButton = document.createElement("button");
+        cancelButton.setAttribute("class", "button");
         cancelButton.setAttribute("id", "cancel-button");
         cancelButton.innerText = "キャンセル";
         cancelButton.addEventListener("click", () => {
@@ -200,7 +202,7 @@ const renderTodo = (todo) => {
     //　削除ボタン
     const deleteButton = document.createElement("button");
     deleteButton.setAttribute("type", "button");
-    deleteButton.setAttribute("class", "delete-button");
+    deleteButton.setAttribute("class", "button delete-button");
     deleteButton.innerText = "X";
     deleteButton.addEventListener("click", () => {
         todoListElem.removeChild(todoElem);

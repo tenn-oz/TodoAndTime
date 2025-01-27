@@ -258,4 +258,12 @@ nav button:hover {
     right: 10px;
     font-size: 30px;
 }
+
+.button {
+    cursor: pointer;
+}
+
+.range {
+    cursor: pointer;
+}
   
