@@ -134,6 +134,7 @@ const renderTodo = (todo) => {
             if (remainingTime <= 0) {
                 endTimer();
                 checkBox.checked = true;
+                allDoneHandler();
                 const loadedTodo = JSON.parse(localStorage.getItem(`todo-${todo.id}`));
                 loadedTodo.completed = true;
                 localStorage.setItem(`todo-${todo.id}`, JSON.stringify(loadedTodo));
