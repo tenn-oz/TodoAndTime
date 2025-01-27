@@ -245,7 +245,37 @@ const init = () => {
         allDoneHandler();
         
         document.getElementById("task-input").value = "";
-    })
+    });
+
+    document.getElementById("about-btn").addEventListener("click", (event) => {
+        event.preventDefault();
+
+        document.getElementById("about-modal").style.display = "block";
+    });
+
+    document.getElementById("about-close").addEventListener("click", (event) => {
+        event.preventDefault();
+
+        document.getElementById("about-modal").style.display = "none";
+    });
+
+    document.getElementById("contact-btn").addEventListener("click", (event) => {
+        event.preventDefault();
+
+        document.getElementById("contact-modal").style.display = "block";
+    });
+
+    document.getElementById("contact-close").addEventListener("click", (event) => {
+        event.preventDefault();
+
+        document.getElementById("contact-modal").style.display = "none";
+    });
+
+    Array.from(document.getElementsByClassName("modal-container")).forEach(container => {
+        container.addEventListener("click", () => {
+            container.style.display = "none";
+        });
+    });
 }
 
 init();

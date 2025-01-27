@@ -13,11 +13,11 @@
 </head>
 <body>
     <header>
-        <h1>TodoAndTime</h1>
+        <a href="/"><h1>TodoAndTime</h1></a>
         <nav>
             <ul>
-                <li>About</li>
-                <li>Contact</li>
+                <li><button id="about-btn" type="button">About</button></li>
+                <li><button id="contact-btn" type="button">Contact</button></li>
             </ul>
         </nav>
     </header>
@@ -32,6 +32,22 @@
             <input type="range" id="minute-range" name="minute" min="0" max="50" step="10" value="0">
         </form>
         <ul id="task-list"></ul>
+
+        <div class="modal-container" id="about-modal">
+            <div class="modal-content">
+                <span class="close" id="about-close">&times;</span>
+                <h2>About</h2>
+                <p>aboutaboutaboutabout</p>
+            </div>
+        </div>
+
+        <div class="modal-container" id="contact-modal">
+            <div class="modal-content">
+                <span class="close" id="contact-close">&times;</span>
+                <h2>Contact</h2>
+                <p>contactcontact</p>
+            </div>
+        </div>
     </main>
 </body>
 </html>
