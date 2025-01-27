@@ -17,33 +17,34 @@ const addEventToSlider = () => {
 //　全タスクが完了しているかを確認し, その場合メッセージを表示
 const allDoneHandler = () => {
     const allCheckBox = document.getElementsByClassName("checkbox");
-    const allChecked = Array.from(allCheckBox).every((checkbox) => checkbox.checked);
-    if (allChecked) {
-        const message = document.createElement("p")
-        message.setAttribute("id", "message");
-        message.innerText = "All done.";
+    const message = document.getElementById("message");
+    const allChecked = Array.from(allCheckBox).every((checkbox) => checkbox.checked) && allCheckBox.length != 0;
+    if (allChecked && !message) {
+        const newmessage = document.createElement("p")
+        newmessage.setAttribute("id", "message");
+        newmessage.innerText = "All done.";
         const mainSection = document.getElementById("main-section");
-        mainSection.append(message);
-    } else {
-        const message = document.getElementById("message");
-        if (message) {
-            message.remove();
-        }
+        mainSection.append(newmessage);
+    } else if (!allChecked && message) {
+        message.remove();
     }
 }
 
-//　新しいタスクを追加し表示を更新
-document.getElementById("task-form").addEventListener("submit", (event) => {
-    event.preventDefault();
+const renderTodo = (todo) => {
+    const todoName = todo.name;
+    const todoHour = todo.hour;
+    const todoMinute = todo.minute;
+    const todoCompleted = todo.completed;
 
-    const taskInput = document.getElementById("task-input");
-    const taskList = document.getElementById("task-list");
-    const newTask = document.createElement("li");
-    
-    //　チェックボックス
+    const todoListElem = document.getElementById("task-list");
+    const todoElem = document.createElement("li");
+    todoElem.setAttribute("id", `todo-${todo.id}`);
+
+    //チェックボックス
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
     checkBox.setAttribute("class", "checkbox");
+    checkBox.checked = todoCompleted;
     checkBox.addEventListener("click", (event) => {
         const task = event.target.parentNode;
         const todoItem = JSON.parse(localStorage.getItem(task.id));
@@ -51,26 +52,19 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         localStorage.setItem(`todo-${todoItem.id}`, JSON.stringify(todoItem));
     })
     checkBox.addEventListener("change", allDoneHandler);
-    newTask.appendChild(checkBox);
-    
+    todoElem.appendChild(checkBox);
+
     // タスク
-    const taskName = document.createElement("span");
-    taskName.setAttribute("class", "task-name");
-    taskName.innerText = taskInput.value;
-    newTask.appendChild(taskName);
+    const todoNameElem = document.createElement("span");
+    todoNameElem.setAttribute("class", "task-name");
+    todoNameElem.innerText = todoName;
+    todoElem.appendChild(todoNameElem);
 
     // 設定時間
-    const setTime = document.createElement("span")
-    setTime.setAttribute("class", "task-time");
-    const setHour = document.getElementById("hour-range");
-    const setMinute = document.getElementById("minute-range");
-    setTime.innerHTML = `<span class="set-hour">${setHour.value}</span>:<span class="set-minute">${setMinute.value.padStart(2, "0")}</span>`;
-    newTask.appendChild(setTime);
-
-    //Todoインスタンスの作成とストレージへの保存
-    const newTodoItem = new TodoItem({name: taskInput.value, hour: setHour.value, minute: setMinute.value, completed: false});
-    localStorage.setItem(`todo-${newTodoItem.id}`, JSON.stringify(newTodoItem));
-    newTask.setAttribute("id", `todo-${newTodoItem.id}`)
+    const todoTimeElem = document.createElement("span")
+    todoTimeElem.setAttribute("class", "task-time");
+    todoTimeElem.innerHTML = `<span class="set-hour">${todoHour}</span>:<span class="set-minute">${String(todoMinute).padStart(2, "0")}</span>`;
+    todoElem.appendChild(todoTimeElem);
 
     //　開始ボタン
     const startButton = document.createElement("button");
@@ -87,33 +81,31 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         displayButtons.setAttribute("id", "display-buttons");
         mainSection.insertBefore(displayButtons, timeDisplay.nextSibling);
 
-        const currentTask = document.createElement("div");
-        currentTask.setAttribute("id", "current-task");
-        currentTask.innerText = newTask.querySelector(".task-name").innerText;
-        mainSection.insertBefore(currentTask, displayButtons.nextSibling);
+        const currentTodoElem = document.createElement("div");
+        currentTodoElem.setAttribute("id", "current-task");
+        currentTodoElem.innerText = todoElem.querySelector(".task-name").innerText;
+        mainSection.insertBefore(currentTodoElem, displayButtons.nextSibling);
 
         // 全タスクの開始ボタンを一時削除
-        const taskList = document.getElementById("task-list");
         const originalStartButtons = [];
-        taskList.querySelectorAll(".start-button").forEach((button) => {
+        todoListElem.querySelectorAll(".start-button").forEach((button) => {
             originalStartButtons.push(button);
             button.remove();
         });
 
         // フォームを一時削除
-        const taskForm = document.getElementById("task-form");
-        const originalForm = taskForm.innerHTML;
-        taskForm.innerHTML = "";
+        const todoFormElem = document.getElementById("task-form");
+        const originalForm = todoFormElem.innerHTML;
+        todoFormElem.innerHTML = "";
 
-        const setHour = newTask.querySelector(".set-hour").innerText;
-        const setMinute = newTask.querySelector(".set-minute").innerText;
-        let initSetTime = parseInt(setHour) * 3600 + parseInt(setMinute) * 60;
+        //タイマー設定
+        let initSetTime = todoHour * 3600 + todoMinute * 60;
         let startTime = Date.now();
         
         const updateDisplay = (time) => {
             const timeDisplay = document.getElementById("time-display");
             const hours = Math.floor(time / 3600);
-            const minutes = Math.floor((time % 3600) / 60)
+            const minutes = Math.floor((time % 3600) / 60);
             const seconds = time % 60;
             timeDisplay.innerHTML = `<span id="display-hour">${hours}</span>:<span id="display-minute">${String(minutes).padStart(2, "0")}</span>:<span id="display-second">${String(seconds).padStart(2, "0")}</span>`;
         }
@@ -121,17 +113,17 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         const deleteDisplay = () => {
             timeDisplay.remove();
             displayButtons.remove();
-            currentTask.remove();
+            currentTodoElem.remove();
         }
 
-        const reappearFormAndTaskList = () => {
-            taskForm.innerHTML = originalForm;
-            taskForm.querySelector("#hour-value").innerText = "0";
-            taskForm.querySelector("#minute-value").innerText = "0";
+        const reappearFormAndTodoList = () => {
+            todoFormElem.innerHTML = originalForm;
+            todoFormElem.querySelector("#hour-value").innerText = "0";
+            todoFormElem.querySelector("#minute-value").innerText = "0";
             addEventToSlider();
-            for (let i = 0; i < taskList.children.length; ++i) {
-                let taskli = taskList.children[i];
-                taskli.insertBefore(originalStartButtons[i], taskli.children[taskli.children.length - 1]);
+            for (let i = 0; i < todoListElem.children.length; ++i) {
+                let todoli = todoListElem.children[i];
+                todoli.insertBefore(originalStartButtons[i], todoli.children[todoli.children.length - 1]);
             }
         }
 
@@ -141,7 +133,10 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
             updateDisplay(remainingTime);
             if (remainingTime <= 0) {
                 endTimer();
-                newTask.querySelector(".checkbox").checked = true;
+                checkBox.checked = true;
+                const loadedTodo = JSON.parse(localStorage.getItem(`todo-${todo.id}`));
+                loadedTodo.completed = true;
+                localStorage.setItem(`todo-${todo.id}`, JSON.stringify(loadedTodo));
             }
         }
 
@@ -156,7 +151,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
             clearInterval(intervalID);
             deleteDisplay();
             document.removeEventListener("visibilitychange", visibilitychangeHandler);
-            reappearFormAndTaskList();
+            reappearFormAndTodoList();
         }
 
         updateDisplay(initSetTime);
@@ -180,7 +175,7 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
                 startTime = Date.now();
                 intervalID = setInterval(timerHandler, 1000);
             }
-        })
+        });
         displayButtons.appendChild(pauseButton);
 
         const cancelButton = document.createElement("button");
@@ -191,26 +186,57 @@ document.getElementById("task-form").addEventListener("submit", (event) => {
         })
         displayButtons.appendChild(cancelButton);
     });
-    newTask.appendChild(startButton);
+    todoElem.appendChild(startButton);  
     
     //　削除ボタン
     const deleteButton = document.createElement("button");
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("class", "delete-button");
     deleteButton.innerText = "X";
-    deleteButton.addEventListener("click", (event) => {
-        const task = event.target.parentNode;
-        taskList.removeChild(task);
+    deleteButton.addEventListener("click", () => {
+        todoListElem.removeChild(todoElem);
         //ストレージから削除
-        localStorage.removeItem(`${task.id}`);
+        localStorage.removeItem(`todo-${todo.id}`);
+        allDoneHandler();
     });
-    newTask.appendChild(deleteButton);
+    todoElem.appendChild(deleteButton);
 
-    taskList.appendChild(newTask);
+    todoListElem.appendChild(todoElem);
+}
 
+const renderTodoList = () => {
+    Object.keys(localStorage)
+    .filter(key => key.startsWith("todo"))
+    .sort((a, b) => parseInt(a.substring(5)) - parseInt(b.substring(5)))
+    .forEach(key => {
+        const loadedTodo = JSON.parse(localStorage.getItem(key));
+        renderTodo(loadedTodo);
+    });
+}
+
+const init = () => {
+    addEventToSlider();
+    renderTodoList();
     allDoneHandler();
-    taskInput.value = "";
-})
 
-addEventToSlider();
+    //　新しいタスクを追加し表示を更新
+    document.getElementById("task-form").addEventListener("submit", (event) => {
+        event.preventDefault();
 
+        const todoName = document.getElementById("task-input").value;
+        const todoHour = document.getElementById("hour-range").value;
+        const todoMinute = document.getElementById("minute-range").value;
+
+        //Todoインスタンスの作成とストレージへの保存
+        const newTodo = new TodoItem({name: todoName, hour: todoHour, minute: todoMinute, completed: false});
+        localStorage.setItem(`todo-${newTodo.id}`, JSON.stringify(newTodo));
+
+        renderTodo(newTodo);
+
+        allDoneHandler();
+        
+        document.getElementById("task-input").value = "";
+    })
+}
+
+init();
