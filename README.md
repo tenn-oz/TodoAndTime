@@ -13,7 +13,7 @@ npx http-server -p 3000
 ```
 その後ブラウザで`localhost:3000`にアクセスしてください。
 
-npxコマンドが使えない場合は、[Node.js](https://nodejs.org/ja)をインストールし、`npm install -g npx`でインストールでしてください。
+npxコマンドが使えない場合は、[Node.js](https://nodejs.org/ja)をインストールし、`npm install -g npx`でインストールしてください。
 
 ## Features
 - Manage to-do tasks by linking the required time with each one.
